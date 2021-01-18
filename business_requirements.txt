@@ -13,7 +13,8 @@
 ************ ---------------- ******************* --------------- ***********
 
 	     		  DESCRIPCION DE LA SOLUCION
-
+NOTA: 
+	requeriments.txt no instala sycopg2 automáticamente, debe hacerse manualmente
 
 1. creacion de base de datos
 
