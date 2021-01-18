@@ -1,0 +1,97 @@
+1. lista con tramos horarios por 30 minutos c/u
+2. disponibilidad de motociclistas cada 30 min
+3. cuando se dé click sobre un bloque se tomará el turno de uno de
+   los motociclistas, la caja pasa a verde
+
+4. si el mismo cliente pulsa , se realiza la desseleccion y pasa a verde
+   y el motociclista regresa a su estado de espera
+
+5. si todos los motociclistas están en rojo no se debe poder seleccionar
+   se debe esperar hasta la siguiente media hora
+
+
+************ ---------------- ******************* --------------- ***********
+
+	     		  DESCRIPCION DE LA SOLUCION
+
+
+1. creacion de base de datos
+
+   tabla de motociclistas (driver)
+   	 id
+	 nombre
+	 numero_placa
+
+
+   tabla de usuarios (users)
+   	 id
+	 nombre
+
+   tabla de turno tomado (user_driver)
+   	 id_user
+	 id_driver
+	 time
+
+2.
+
+
+
+
+############ ----------------- ################### --------------- ###########
+
+
+	     		      PROCESO
+
+
+1. creacion del folder shift reservation
+
+2. creacion del archivo main/main.py
+
+3. creacion del contenedor con los requerimienros necesarios
+
+   dockerfile
+   docker-compose.yml
+   requirements.txt
+
+4. sudo docker run --name db -e POSTGRES_PASSWORD=password -d postgres
+
+5.  sudo docker exec db psql -U postgres
+
+    con estos comandos se ingresa al contenedor de postgres
+
+6. creacion de la tabla drivers:
+
+   CREATE TABLE IF NOT EXISTS driver (
+   	  driver_id serial PRIMARY KEY,
+	  name VARCHAR (50) UNIQUE NOT NULL,
+	  placa VARCHAR (50) UNIQUE NOT NULL);
+
+7. creacion de la tabla usuarios:
+
+   CREATE TABLE users (
+   	   user_id serial PRIMARY KEY,
+   	   name VARCHAR (255) UNIQUE NOT NULL);
+
+8 creacion de la tabla user_driver turno tomado:
+
+  CREATE TABLE user_driver (
+  	 user_id INT NOT NULL,
+  	 driver_id INT NOT NULL,
+  	 date TIMESTAMP,
+  	 primary key (user_id, driver_id),
+  	 FOREIGN KEY (driver_id)
+  	 REFERENCES driver (driver_id),
+  	 FOREIGN KEY (user_id)
+  	 REFERENCES users (user_id)
+  );
+
+
+
+@@@@@@@@@@@@@@@@@@@@ ----------------------------------- @@@@@@@@@@@@@@@@@@@@@
+
+
+		     		COMANDOS
+
+
+sudo -i -u postgres  -- INGRESAR A POSTGRES LOCALMENTE
+

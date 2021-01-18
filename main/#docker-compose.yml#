@@ -1,0 +1,30 @@
+version: '3.3'
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: 'python main.py'
+    ports:
+      - 8001:5000
+    extra_hosts:
+      - "docker.for.linux.localhost:172.17.0.1"
+    volumes:
+      - .:/app
+    depends_on:
+      - db
+
+  queue:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: 'python consumer.py'
+    depends_on:
+      - db
+
+  db:
+   version: 3’   image: ‘postgres:latest’
+   volumes:
+   - .dbdata:/var/lib/mysql
+   ports:
+   - 5432:5432

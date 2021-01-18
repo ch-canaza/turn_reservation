@@ -1,0 +1,145 @@
+1. lista con tramos horarios por 30 minutos c/u
+2. disponibilidad de motociclistas cada 30 min
+3. cuando se dé click sobre un bloque se tomará el turno de uno de
+   los motociclistas, la caja pasa a verde
+
+4. si el mismo cliente pulsa , se realiza la desseleccion y pasa a verde
+   y el motociclista regresa a su estado de espera
+
+5. si todos los motociclistas están en rojo no se debe poder seleccionar
+   se debe esperar hasta la siguiente media hora
+
+
+************ ---------------- ******************* --------------- ***********
+
+	     		  DESCRIPCION DE LA SOLUCION
+
+
+1. creacion de base de datos
+
+   tabla de motociclistas (driver)
+   	 id
+	 nombre
+	 numero_placa
+
+
+   tabla de usuarios (users)
+   	 id
+	 nombre
+
+   tabla de turno tomado (user_driver)
+   	 id_user
+	 id_driver
+	 time
+
+2. creacion de models.py
+
+	representacion sqlalchemy psycopg2 de la base de datos
+
+	* models/
+		connectionpsql.py
+		userModel.py
+		driverModel.py
+		turnModel.py
+
+3. creacion de la aplicacion 
+	
+	* main/app/
+		main.py
+			- llamado a los metodos
+
+	- se crean los end points que insertan y traen de vueta los datos
+		
+		user.py
+		
+		* http://0.0.0.0:8001/users/create
+			
+			- create user accepting the name of the user, id auto generated
+
+		* http://0.0.0.0:8001/users/list_users
+			
+			- shows a list of all users
+
+		driver.py
+
+		* http://0.0.0.0:8001/drivers/create
+			
+			- creates driver accepting name and placa as parameters, id auto generated
+
+		* http://0.0.0.0:8001/drivers/list_drivers
+			
+			- show a list of drivers
+		
+		turn.py
+
+		* http://0.0.0.0:8001/turn/create
+			
+			- creates a turn based on user_id, driver_id and current date
+
+		* http://0.0.0.0:8001/turn/list_turns
+			
+			- shows a list of turns booked format (date), (usrid_drivid)
+
+	
+
+
+
+############ ----------------- ################### --------------- ###########
+
+
+	     		      PROCESO 
+
+
+1. creacion del folder shift reservation
+
+2. creacion del archivo main/main.py
+
+3. creacion del contenedor con los requerimienros necesarios
+
+   dockerfile
+   docker-compose.yml
+   requirements.txt
+
+4. sudo docker run --name db -e POSTGRES_PASSWORD=password -d postgres
+
+5.  sudo docker exec db psql -U postgres
+
+    con estos comandos se ingresa al contenedor de postgres
+
+6. creacion de la tabla drivers:
+
+   CREATE TABLE IF NOT EXISTS driver (
+   	  driver_id serial PRIMARY KEY,
+	  name VARCHAR (50) UNIQUE NOT NULL,
+	  placa VARCHAR (50) UNIQUE NOT NULL);
+
+7. creacion de la tabla usuarios:
+
+   CREATE TABLE users (
+   	   user_id serial PRIMARY KEY,
+   	   name VARCHAR (255) UNIQUE NOT NULL);
+
+8 creacion de la tabla user_driver turno tomado:
+
+  CREATE TABLE user_driver (
+  	 user_id INT NOT NULL,
+  	 driver_id INT NOT NULL,
+  	 date TIMESTAMP,
+  	 primary key (user_id, driver_id),
+  	 FOREIGN KEY (driver_id)
+  	 REFERENCES driver (driver_id),
+  	 FOREIGN KEY (user_id)
+  	 REFERENCES users (user_id)
+  );
+
+
+
+@@@@@@@@@@@@@@@@@@@@ ----------------------------------- @@@@@@@@@@@@@@@@@@@@@
+
+
+		     		COMANDOS
+
+
+sudo -i -u postgres  -- INGRESAR A POSTGRES LOCALMENTE
+
+psql  -- ingresa al gestor de postgres
