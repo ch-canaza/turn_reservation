@@ -14,14 +14,7 @@ function App() {
     <div className="App">
       <Menu />
       <div className="vehicle_order">
-        <Vehicle1 />
-        <Vehicle1 />
-        <Vehicle1 />
-        <Vehicle1 />
-        <Vehicle1 />
-        <Vehicle1 />
-        <Vehicle1 />
-        <Vehicle1 />
+        
       </div>
     </div>
   );
