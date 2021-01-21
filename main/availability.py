@@ -12,7 +12,7 @@ import json
 
 
 usrid = 5
-
+drvsid = 10
 
 
 @app.route('/turns/availability', methods=['GET'])
@@ -71,8 +71,10 @@ def turn_available():
             return json.dumps({"message":"ya tienes turno reservado"})
             #break
         else:
-            if int(separate_id[1]) not in drivers_available:
-                
+            
+            #if int(separate_id[1]) not in drivers_available:
+            if drvsid not in drivers_available:
+               
                 #create_Turn()
                 print({"message":"creando turno"})
                 return json.dumps({"message":"creando turno"})
