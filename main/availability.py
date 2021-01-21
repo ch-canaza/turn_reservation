@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-
 from models.connectionpsql import db, app
 from models.driverModel import DriverModel
 from models.userModel import UserModel
@@ -11,8 +10,8 @@ import urllib.request
 import json
 
 
-usrid = 5
-drvsid = 10
+usrid = 3
+drvsid = 6
 
 
 @app.route('/turns/availability', methods=['GET'])
@@ -64,24 +63,29 @@ def turn_available():
         print(f' separate_id[0] {separate_id[0]}')
         
         #if int(separate_id[0]) in users_registered:
-        if usrid in users_registered:
+        if usrid == int(separate_id[0]): # and usrid in users_registered:
             
-            #print(f'separate_id {separate_id}')
-            print({"message":"ya tienes turno reservado"})
-            return json.dumps({"message":"ya tienes turno reservado"})
-            #break
+                print({"message":"ya tienes turno reservado"})
+                return json.dumps({"message":f'ya tienes turno reservado, {usrid}--{separate_id}'})
+            
         else:
-            
-            #if int(separate_id[1]) not in drivers_available:
-            if drvsid not in drivers_available:
-               
-                #create_Turn()
-                print({"message":"creando turno"})
-                return json.dumps({"message":"creando turno"})
-            
-            else:
+            if usrid not in users_registered:   
+                return json.dumps({"message": f'you are not a valid user{users_registered}'})
 
-                return json.dumps({'message':"drivers ocupados"})
+            else:
+                
+                
+                if drvsid == int(separate_id[1]): # and drvsid in drivers_available:
+                
+                    return json.dumps({'message':f'driver ocupado {drivers_available}'})
+                    
+                else:
+                    if drvsid in drivers_available: 
+                        
+                        return json.dumps({"message":"creando turno"})
+                    
+                    else:
+                        return json.dumps({"message": f'driver not in db{drivers_available}'})
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')
