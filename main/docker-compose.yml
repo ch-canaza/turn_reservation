@@ -20,7 +20,7 @@ services:
         context: .
         dockerfile: dockerfile
       command: 
-        'python availability.py'
+        'python create_turn.py'
       ports:
         - 8002:5000
       extra_hosts:

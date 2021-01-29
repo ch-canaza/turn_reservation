@@ -5,41 +5,37 @@ import axios from 'axios'
 
 
 export default function App() {
-  const [drivercards, setDrivercards] = useState(DRIVERS_LIST);
+  const [drivercards, setDrivercards] = useState([]);
+  const [driverelement, setDataturns] = useState([])
   
-  return (
-    <div>
-      <DrivercardList drivercards = {drivercards} />
-    </div>
-  );
-}
+  let name;
+  let id;
+  let plate;
+  useEffect(() => {
+    axios
+      .get('http://0.0.0.0:8001/drivers/list_drivers')
+      .then(res => {
+        setDrivercards(res.data.drivers.map((driversItem, index) => {
+          name = driversItem.name
+          id = driversItem.id
+          plate = driversItem.placa
+          
+          return {
+            id: id,
+            name: name,
+            plate: plate
+            
+          }
+          
+        }))
+        
+      })
+      
+  },[]) 
 
-
-const DRIVERS_LIST = [
-      {
-          "id": 1,
-          "name": "jairo",
-          "placa": "hfks"
-      },
-      {
-          "id": 3,
-          "name": "alberto",
-          "placa": "shfrg"
-      },
-      {
-          "id": 5,
-          "name": "josue",
-          "placa": "jshbd"
-      },
-      {
-          "id": 6,
-          "name": "miguel",
-          "placa": "fdgj"
-      },
-      {
-          "id": 7,
-          "name": "fernando",
-          "placa": "dsfe"
-      }
-  ]
-
+    return (
+      <div>
+        <DrivercardList drivercards = {drivercards} />
+      </div>
+    );
+  }

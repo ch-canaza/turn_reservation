@@ -13,10 +13,19 @@
 ************ ---------------- ******************* --------------- ***********
 
 	     		  DESCRIPCION DE LA SOLUCION
-NOTA: 
-	requeriments.txt no instala sycopg2 automáticamente, debe hacerse manualmente
+NOTA:
 
-1. creacion de base de datos
+	*** requeriments.txt no instala sycopg2 automáticamente, debe hacerse manualmente
+
+	*** bimporting cors is pretty important
+	*** la ip " externa de main.py es 172.17.0.1 asi que availability debe buscar estado
+
+	*** si se envia data erronea a create_turn genera error por cors
+	*** si se envia data repetida a la db en create user o creste driver genera error cors
+	
+
+
+1. creacion de base de datos con sus respectivas tablas en postgres
 
    tabla de motociclistas (driver)
    	 id
@@ -81,6 +90,41 @@ NOTA:
 			
 			- shows a list of turns booked format (date), (usrid_drivid)
 
+		* http://0.0.0.0:8001/turn/delete_turn/driver_id
+
+			- deletes a record in table turns based on driver id
+
+	
+		availability.py
+
+		
+		* http://0.0.0.0:8002/turns/availability
+
+			- verifies if already exist a turn with current user id or if are not
+				drivers available
+
+4. creacion del front-end
+
+	shift_reservation/front/
+
+		- npx create-react-app turnapp
+	
+	shift_reservation/front/turnapp/
+		
+		- npm start 
+
+5. creacion de los componentes
+
+	shift_reservation/front/src/components
+
+		- creamos vehicle_1
+
+	DOING !!!!!!
+
+6. install matrial-ui-core
+
+	npm install @material-ui/core
+
 	
 
 
@@ -139,8 +183,20 @@ NOTA:
 
 
 		     		COMANDOS
+run 2 flask app in the same client locally
 
+$ export FLASK_APP=script1.py
+$ flask run --host 0.0.0.0 --port 5000
+Open up a new terminal
+
+$ export FLASK_APP=script2.py
+$ flask run --host 0.0.0.0 --port 5001
 
 sudo -i -u postgres  -- INGRESAR A POSTGRES LOCALMENTE
+
+sudo docker exec -it main_backend1_1 -- ingreso al servicio :8001
+sudo docker exec -it main_backend2_1 -- ingreso al servicio :8002
+
+
 
 psql  -- ingresa al gestor de postgres

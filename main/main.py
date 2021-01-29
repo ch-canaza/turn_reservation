@@ -41,8 +41,6 @@ def get_all_drivers():
         } for driver in drivers
     ]    
 
-    
-    #return {"count": len((results)), "drivers": (results)}
     return {"drivers": (results)}
 
 @app.route('/users/create', methods=['POST'])
@@ -80,28 +78,6 @@ def get_all_users():
     return {"count": len((results)), "users": (results)}
 
 
-@app.route('/turn/create', methods=['POST'])
-def create_Turn():
-    """
-        #method that creates Turn
-    """
-
-    if request.is_json:
-        data = request.get_json()
-        #return (str(data))
-        
-        new_turn = TurnModel(driver_id=data['driver_id'],\
-                             user_id=data['user_id'],\
-                             date=data['date'],           
-                             )
-        
-        db.session.add(new_turn)
-        db.session.commit()
-        
-        return {"message": f"turn at {new_turn.date} has been created successfully."}
-    else:
-        return {"error": "The request payload is not in JSON format"}
-
 
 @app.route('/turn/list_turns', methods=['GET'])    
 def get_all_turns(): 
@@ -133,7 +109,8 @@ def delete_turn(driver):
     db.session.delete(turn)
     db.session.commit()
    
-    return {"mesaage": "turn deleted succesfuly"}
+    return {"message": "turn deleted succesfuly"}
+
 
 
 

@@ -5,7 +5,7 @@ export default function DrivercardList({ drivercards }) {
   return (
     <div className="card-grid">
       {drivercards.map(drivercard => {
-        console.log(drivercard)
+        //console.log(drivercard)
         return <Drivercard drivercard={drivercard} key={drivercard.name} />
       })}
     </div>
